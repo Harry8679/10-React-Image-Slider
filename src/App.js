@@ -1,9 +1,10 @@
 import "./App.scss";
+import Slider from "./components/slider/Slider";
 
 function App() {
   return (
     <div>
-      <h1>Hello World!!!</h1>
+      <Slider />
     </div>
   );
 }
