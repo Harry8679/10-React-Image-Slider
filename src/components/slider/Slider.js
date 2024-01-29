@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 // import { FaArrowAltCircleLeft, FaArrowAltCircleRight } from "react-icons/fa";
 import { FaArrowLeft, FaArrowRight } from "react-icons/fa";
 
@@ -9,10 +9,40 @@ import './Slider.scss';
 
 const Slider = () => {
   const [currentSlide, setCurrentSlide] = useState(0);
+  const slideLength = sliderData.length;
+
+  const autoScroll = true;
+  let slideInterval;
+  let intervalTime = 5000;
+
+  useEffect(() => {
+    setCurrentSlide(0);
+  }, []);
+
+  useEffect(() => {
+    if (autoScroll) {
+        auto();
+    }
+
+    return () => clearInterval(slideInterval);
+  }, [currentSlide]);
+
+  const nextSlide = () => {
+    setCurrentSlide(currentSlide === (slideLength - 1) ? 0 : (currentSlide + 1));
+  }
+
+  const prevSlide = () => {
+    setCurrentSlide(currentSlide === 0 ? (slideLength - 1) : currentSlide - 1);
+  }
+
+  const auto = () => {
+    slideInterval = setInterval(nextSlide, intervalTime);
+  }
+
   return (
     <div className='slider'>
-      <FaArrowLeft className='arrow prev' />
-      <FaArrowRight className='arrow next' />
+      <FaArrowLeft className='arrow prev' onClick={prevSlide} />
+      <FaArrowRight className='arrow next' onClick={nextSlide} />
 
       {sliderData.map((slide, index) => {
         return (
